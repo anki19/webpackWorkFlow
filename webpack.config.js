@@ -10,9 +10,9 @@ module.exports = {
   output: {
     filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: 'dist/'
+    publicPath: ''
   },
-  mode: 'none',
+  mode: 'development',
   module: {
     rules: [
       {
@@ -41,11 +41,17 @@ module.exports = {
            loader: 'babel-loader',
            options: {
              presets:['@babel/env'],
-              plugins: ['transform-class-properties']
+            plugins: ['transform-class-properties']
 
            }
          }
 
+      },
+      {
+        test: /\.hbs$/,
+         use: [
+          'handlebars-loader'
+        ]
       }
 
     ]
@@ -58,7 +64,11 @@ module.exports = {
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [path.join(process.cwd(), 'src/trash')]
     }),
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      title: 'Branding Pond',
+      template: 'src/index.hbs',
+      description: 'Some information'
+    })
 
 
 
